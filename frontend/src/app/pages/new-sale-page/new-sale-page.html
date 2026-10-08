@@ -1,0 +1,168 @@
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-semibold" href="#">
+            Sales Website
+        </a>
+    </div>
+</nav>
+
+<!-- Contenido -->
+<div class="container py-4">
+
+    <!-- Título -->
+    <div class="mb-4">
+        <h2 class="mb-1">New Sale</h2>
+        <p class="text-secondary mb-0">
+            Complete the information to register a new sale.
+        </p>
+    </div>
+
+    <!-- Información principal -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Sales Information</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <!-- Cliente -->
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Customer Name
+                    </label>
+
+                    <input type="text" class="form-control" 
+                        placeholder="Enter the customer's name" autocomplete="off">
+                   
+                    <small class="text-danger">
+						field is required
+                    </small>
+                </div>
+
+                <!-- Tipo Pago -->
+                <div class="col-md-6">
+                    <label class="form-label">
+                        Payment type
+                    </label>
+
+                    <select class="form-select">
+                        <option value="0" selected disabled>
+                            Select a payment type
+                        </option>
+                        <option value="1">Cash</option>
+                        <option value="2">Card</option>
+                        <option value="3">Transfer</option>
+                    </select>
+                    <small class="text-danger">
+                        field is required
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Detalle -->
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                Product Details
+            </h5>
+
+            <button class="btn btn-primary btn-sm" (click)="addProduct()">
+                Add Product
+            </button>
+        </div>
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>Product</th>
+                            <th width="140">Quantity</th>
+                            <th width="180">Unit Price</th>
+                            <th width="180">Subtotal</th>
+                            <th width="100">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (item of saleForm.details; track $index){
+                            <tr>
+                            
+                                <td>
+                                    <input type="text" class="form-control" [formField]="item.productName" placeholder="Product name">
+                                </td>
+
+                                <td>
+                                    <input type="number" [formField]="item.quantity" class="form-control">
+                                </td>
+
+                                <td>
+                                    <input type="number" [formField]="item.unitPrice" class="form-control">
+                                </td>
+
+                                <td>
+                                    <span class="fw-semibold">
+                                        {{ item.quantity().value() * item.unitPrice().value() }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-outline-danger btn-sm" (click)="removeProduct($index)" >
+                                        Delete
+                                    </button>
+                                </td>
+                            
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="card-footer">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <span class="fs-5 fw-semibold">
+                        Total:
+                    </span>
+
+                    <span class="fs-4 fw-bold text-success ms-2">
+                        S/ {{ total().toFixed(2) }}
+                    </span>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-secondary" >Cancel</a>
+
+
+                    <button type="button" class="btn btn-success">
+                        Save Sale
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
