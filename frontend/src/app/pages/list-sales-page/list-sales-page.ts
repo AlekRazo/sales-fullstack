@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 })
 export class ListSalesPage {
   protected currentPage = signal(1);
-  protected pageSize = signal(1);
+  protected pageSize = signal(10);
   protected totalRecords = signal(0);
   protected sales = signal<GetSaleResponse[]>([]);
 
