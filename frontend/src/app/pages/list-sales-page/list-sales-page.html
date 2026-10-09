@@ -1,1 +1,91 @@
-<p>list-sales-page works!</p>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand fw-semibold" href="#">
+            Sales Website
+        </a>
+    </div>
+</nav>
+
+<div class="container py-4">
+
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2 class="mb-1">Sales List</h2>
+            <p class="text-muted mb-0">
+                Check the recorded sales.
+            </p>
+        </div>
+
+        <a class="btn btn-primary" routerLink="/new">New Sale</a>
+
+    </div>
+
+    <!-- Tabla -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle mb-0">
+
+                    <thead class="table-light">
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Payment type</th>
+                            <th class="text-end">Total</th>
+                            <th width="100" class="text-center">
+                                Action
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        @for (item of sales(); track $index) {
+                            <tr>
+                                <td>{{item.saleId}}</td>
+                                <td>{{item.customerName}}</td>
+                                <td>{{item.saleDate}}</td>
+                                <td>
+                                    <span class="badge" [class]="{
+                                        'text-bg-success': item.paymentTypeName === 'Cash',
+                                        'text-bg-primary': item.paymentTypeName === 'Card',
+                                        'text-bg-warning': item.paymentTypeName === 'Transfer',
+                                    }">{{item.paymentTypeName}}</span>
+                                </td>
+                                <td class="text-end fw-semibold">{{item.total | currency}}</td>
+                                <td>
+                                    <a class="btn btn-outline-secondary" [routerLink]="['detail/', item.saleId]">View</a>
+                                </td>
+                            </tr>
+                        } @empty {
+                            <tr>
+                                <td colspan="4" style="text-align: center">No sales found</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Paginación -->
+
+    <div class="d-flex justify-content-center mt-4">
+
+        <ngb-pagination [collectionSize]="totalRecords()" [page]="currentPage()" [pageSize]="pageSize()" (pageChange)="currentPage.set($event)">
+        </ngb-pagination>
+
+    </div>
+</div>
