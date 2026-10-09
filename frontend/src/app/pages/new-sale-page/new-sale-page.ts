@@ -2,9 +2,11 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { SalesService } from '../../services/sales-service';
 import { form, FormField, required, validate } from '@angular/forms/signals';
 import { CreateSaleRequest } from '../../interfaces/create-sale-request';
+import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [FormField],
+  imports: [FormField, RouterLink],
   selector: 'app-new-sale-page',
   styleUrl: './new-sale-page.css',
   templateUrl: './new-sale-page.html',
@@ -24,7 +26,7 @@ export class NewSalePage {
 
   private saleModel = signal(this.initialSale);
   protected saleForm = form(this.saleModel, (schemaPath) => {
-    required(schemaPath.customerName, {message: 'Customer name is reuired'});
+    required(schemaPath.customerName, {message: 'Customer name is required'});
     validate(schemaPath.paymentType, ({value}) => {
       if (value().match('0')) return { kind: "equals", message: 'Payment type is required'};
 
@@ -64,6 +66,17 @@ export class NewSalePage {
         if (response.isSuccess) {
           this.saleModel.set(this.initialSale);
           this.saleForm().reset();
+          this.saleForm.customerName().focusBoundControl();
+          Swal.fire({
+            text: `sale number: ${response.data} registered!`,
+            icon: "success"
+          });
+        }
+        else {
+          Swal.fire({
+            text: response.message,
+            icon: "error"
+          })
         }
       }
     })
