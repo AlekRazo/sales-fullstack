@@ -23,7 +23,7 @@ export class SalesService {
     }
 
     get(request: GetSalesQueryRequest): Observable<ApiResponse<GetSalesQueryResponse>>{
-        return this.http.get<ApiResponse<GetSalesQueryResponse>>(`${this.endpoint}?page=${request.page}&pageSize0${request.pageSize}`);
+        return this.http.get<ApiResponse<GetSalesQueryResponse>>(`${this.endpoint}?page=${request.page}&pageSize=${request.pageSize}`);
     }
 
     getById(id: number): Observable<ApiResponse<GetSaleResponse>>{
