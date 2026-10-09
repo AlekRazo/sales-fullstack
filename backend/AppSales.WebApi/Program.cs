@@ -19,7 +19,7 @@ builder.Services.AddCors(opt =>
 {
     opt.AddPolicy("AngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200/")
+        policy.WithOrigins("http://localhost:4200")
         .AllowAnyHeader().AllowAnyMethod();
     });
 });
@@ -33,9 +33,9 @@ if (app.Environment.IsDevelopment())
     app.MapScalarApiReference(opt => opt.DarkMode = true);
 }
 
-app.UseCors("AngularApp");
-
 app.UseHttpsRedirection();
+
+app.UseCors("AngularApp");
 
 app.UseAuthorization();
 
